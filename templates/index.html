@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>VikiVikiGo</title>
+        <link rel="stylesheet" href="../static/css/style.css">
+        <link rel="icon" type="image/x-icon" href="../static/img/icon.ico">
+    </head>
+
+    <body>
+        <div class="header">
+            <img src="../static/img/logo.png">
+            <h1>VikiVikiGo</h1>
+            <p>Le moteur de recherche qui vous espionne.</p>
+        </div>
+
+        <form action="" method="POST" class="formulaire">
+            <div class="searchbar">
+                <input type="text" placeholder="Recherchez sur le web tout en étant traqués" spellcheck="false" name="request">
+                <button type="submit" value="sendRequest"></button>
+            </div>
+        </form>
+
+        {% for result in results %}
+            {% if loop.first %}
+                {% if result == "No result" %}
+                    <div class="time">Aucun résultat !</div>
+                {% else %}
+                    <div class="time">{{result}}ms</div>
+                {% endif %}
+            {% else %}
+                <div class="searchResults">
+
+                    <a rel="preview" href="{{ result }}"><p id="result-{{result[8: ]}}">{{result}}</p></a>
+                    <script>
+                        link = "{{result}}";
+                        parts = link.split("/");
+                        lastPart = parts[parts.length - 1];
+                        lastPart = lastPart.replace(/_/g, ' ');
+                        lastPart = decodeURIComponent(lastPart)
+                        resultElement = document.getElementById("result-{{result[8: ]}}");
+                        resultElement.textContent = lastPart;
+                    </script>
+                </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+
+    </body>
+
+    <footer>
+        <div class="footerText">
+            <p>Copyright © 2023 · Groupe I · Tous droits réservés</p>
+        </div>
+    </footer>
+</html>
